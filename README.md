@@ -1,3 +1,3 @@
 # personal
 Personal Code Repository 
-Please neter code below
+Please enter code below
