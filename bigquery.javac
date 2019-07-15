@@ -27,9 +27,9 @@ import org.threeten.bp.format.DateTimeFormatter;
       throws InterruptedException {
     // [START bigquery_query_destination_table]
     // BigQuery bigquery = BigQueryOptions.getDefaultInstance().getService();
-    // String destinationDataset = 'my_destination_dataset';
-    // String destinationTable = 'my_destination_table';
-    String query = "SELECT corpus FROM `bigquery-public-data.samples.shakespeare` GROUP BY corpus;";
+    // String destinationDataset = 'mpc-dev-459470.MYPOST_CONSUMER';
+    // String destinationTable = 'C_TMP_TEST';
+    String query = "SELECT count(1) FROM `mpc-dev-459470.MYPOST_CONSUMER.C_WRK_MYPOST_CONSUMER`;";
     QueryJobConfiguration queryConfig =
         // Note that setUseLegacySql is set to false by default
         QueryJobConfiguration.newBuilder(query)
