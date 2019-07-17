@@ -1,0 +1,132 @@
+/**
+ * Triggered from a message on a Cloud Pub/Sub topic.
+ *
+ * @param {!Object} event Event payload.
+ * @param {!Object} context Metadata for the event.
+ */
+
+...
+from google.cloud import bigquery
+
+
+exports.helloPubSub = (event, context) => {
+  const pubsubMessage = event.data;
+  console.log(Buffer.from(pubsubMessage, 'base64').toString());
+};
+
+def export_to_table():
+   # BQ Query to get add to cart sessions
+   QUERY = "INSERT INTO
+  `mpc-dev-459470.DELEVERIES.C_TMP_EM_PIVOT`
+(
+EHGUID,
+CALQUART1,
+ARTICLEID,
+ARTCRTDT,
+ARTCRTTM,
+CONSIGNID,
+MANIFSTID,
+MERLOCID,
+PRODUCT,
+SUBPROD,
+SERVICE,
+CUSTREC,
+BPARTNER,
+LOD_DATE,
+DLVRNTWRK,
+PCODEFROM,
+SNDRPCODE,
+TIMETABLE,
+WCLODGE,
+ACC1STDT,
+DEL1STDT,
+DELDATE,
+DRV1STACC,
+DRV1STDEL,
+PCODEREC,
+DEDD,
+STOP_CK,
+STOP_DATE,
+STOP_TIME,
+WC1STACC,
+WC1STDEL,
+PCODETO,
+EDD,
+FPFWKCTR,
+FPFEVENT,
+FPFSRC,
+FPFDATEL,
+FPFTIMEL,
+FPFDVSRC,
+FPFMSDTL,
+FPFMSTML,
+FPFWCCTYP,
+FPFMISEVNT,
+FPFSTATUS,
+FPEVENT,
+FPWKCTR,
+FPSRC,
+FPDATEL,
+FPTIMEL,
+FPDVSRC,
+FPMSDTL,
+FPMSTML,
+FPWCCTYP,
+FFMISEVNT,
+FPOKCNT,
+OBWKCTR,
+OBEVENT,
+OBSRC,
+OBDATEL,
+OBTIMEL,
+OBUSER,
+OBUROLE,
+OBCNTRCT,
+OBSTATUS,
+OBMSDTL,
+OBMSTML,
+FDLWKCTR,
+FDLDATEL,
+FDLTIMEL,
+FDLEVENT,
+FDLSRC,
+FDLUSER,
+FDLUROLE,
+DLCNTRCT,
+FDLROUND,
+FDLWROUND,
+FDLWCCTYP,
+FDLSTATUS,
+HELDFLG,
+LHWKCTR,
+LHEVENT,
+LHDATEL,
+LHTIMEL,
+FDLEMSEQNO,
+FDLDATETIMEL,
+LHEMSEQNO,
+LHDATETIMEL,
+OBEMSEQNO,
+OBDATETIMEL,
+ADDRLINE1,
+REGION_TERM,
+REGION_TO,
+FRMREGION,
+TOREGION,
+DEDDCUTOF,
+DEDDDAYS,
+TERMSORT,
+TERMREGION,
+EDDDAYS,
+MOBILE,
+EMAIL,
+EDDCRTDT
+)
+SELECT * FROM `mpc-dev-459470.DELEVERIES.MC_BASE_PROC_VIEW`"
+
+   bq_client = bigquery.Client()
+   query_job = bq_client.query(QUERY) # API request
+   rows_df = query_job.result().to_dataframe() # Waits for query to finish
+  
+   
+  
