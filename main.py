@@ -23,7 +23,7 @@ def export_to_table(query,query_job):
   # rows_df = query_job.result().to_dataframe() # Waits for query to finish
    while query_job.state == "RUNNING":
     print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
-    time.sleep( 540 )
+    time.sleep( 5 )
 
    if query_job.errors != None:
     print( "Query Failed." )
