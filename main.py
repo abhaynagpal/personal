@@ -23,7 +23,7 @@ def export_to_table(query,query_job):
    assert query_job.state == 'RUNNING'
 
     # Waits for the query to finish
-   iterator = query_job.result(timeout=TIMEOUT)
+   iterator = query_job.result()
    rows = list(iterator)
 
    assert query_job.state == 'DONE'
