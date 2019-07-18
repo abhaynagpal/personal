@@ -21,7 +21,7 @@ def export_to_table(query,query_job):
    bq_client = bigquery.Client(project=PROJECTID)
    query_job = bq_client.query(QUERY) # API request
   # rows_df = query_job.result().to_dataframe() # Waits for query to finish
-   while query_job.state == "RUNNING":
+   while query_job.state != "DONE":
     print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
     time.sleep( 5 )
 
