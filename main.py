@@ -1,132 +1,24 @@
-/**
- * Triggered from a message on a Cloud Pub/Sub topic.
- *
- * @param {!Object} event Event payload.
- * @param {!Object} context Metadata for the event.
- */
-
-...
+import base64
+import os
 from google.cloud import bigquery
 
+# Environ variables
+PROJECTID = os.environ.get('GCP_PROJECT')
 
-exports.helloPubSub = (event, context) => {
-  const pubsubMessage = event.data;
-  console.log(Buffer.from(pubsubMessage, 'base64').toString());
-};
+def hello_pubsub(event, context):
+    """Triggered from a message on a Cloud Pub/Sub topic.
+    Args:
+         event (dict): Event payload.
+         context (google.cloud.functions.Context): Metadata for the event.
+    """
+    pubsub_message = base64.b64decode(event['data']).decode('utf-8')
 
-def export_to_table():
+    
+def export_to_table(query,query_job):
    # BQ Query to get add to cart sessions
-   QUERY = "INSERT INTO
-  `mpc-dev-459470.DELEVERIES.C_TMP_EM_PIVOT`
-(
-EHGUID,
-CALQUART1,
-ARTICLEID,
-ARTCRTDT,
-ARTCRTTM,
-CONSIGNID,
-MANIFSTID,
-MERLOCID,
-PRODUCT,
-SUBPROD,
-SERVICE,
-CUSTREC,
-BPARTNER,
-LOD_DATE,
-DLVRNTWRK,
-PCODEFROM,
-SNDRPCODE,
-TIMETABLE,
-WCLODGE,
-ACC1STDT,
-DEL1STDT,
-DELDATE,
-DRV1STACC,
-DRV1STDEL,
-PCODEREC,
-DEDD,
-STOP_CK,
-STOP_DATE,
-STOP_TIME,
-WC1STACC,
-WC1STDEL,
-PCODETO,
-EDD,
-FPFWKCTR,
-FPFEVENT,
-FPFSRC,
-FPFDATEL,
-FPFTIMEL,
-FPFDVSRC,
-FPFMSDTL,
-FPFMSTML,
-FPFWCCTYP,
-FPFMISEVNT,
-FPFSTATUS,
-FPEVENT,
-FPWKCTR,
-FPSRC,
-FPDATEL,
-FPTIMEL,
-FPDVSRC,
-FPMSDTL,
-FPMSTML,
-FPWCCTYP,
-FFMISEVNT,
-FPOKCNT,
-OBWKCTR,
-OBEVENT,
-OBSRC,
-OBDATEL,
-OBTIMEL,
-OBUSER,
-OBUROLE,
-OBCNTRCT,
-OBSTATUS,
-OBMSDTL,
-OBMSTML,
-FDLWKCTR,
-FDLDATEL,
-FDLTIMEL,
-FDLEVENT,
-FDLSRC,
-FDLUSER,
-FDLUROLE,
-DLCNTRCT,
-FDLROUND,
-FDLWROUND,
-FDLWCCTYP,
-FDLSTATUS,
-HELDFLG,
-LHWKCTR,
-LHEVENT,
-LHDATEL,
-LHTIMEL,
-FDLEMSEQNO,
-FDLDATETIMEL,
-LHEMSEQNO,
-LHDATETIMEL,
-OBEMSEQNO,
-OBDATETIMEL,
-ADDRLINE1,
-REGION_TERM,
-REGION_TO,
-FRMREGION,
-TOREGION,
-DEDDCUTOF,
-DEDDDAYS,
-TERMSORT,
-TERMREGION,
-EDDDAYS,
-MOBILE,
-EMAIL,
-EDDCRTDT
-)
-SELECT * FROM `mpc-dev-459470.DELEVERIES.MC_BASE_PROC_VIEW`"
-
-   bq_client = bigquery.Client()
+   QUERY = "INSERT INTO `mpc-dev-459470.DELEVERIES.C_TMP_EM_PIVOT` SELECT * FROM `mpc-dev-459470.DELEVERIES.MC_BASE_PROC_VIEW`"
+   bq_client = bigquery.Client(project=PROJECTID)
    query_job = bq_client.query(QUERY) # API request
-   rows_df = query_job.result().to_dataframe() # Waits for query to finish
-  
-   
-  
+  # rows_df = query_job.result().to_dataframe() # Waits for query to finish
+
+
