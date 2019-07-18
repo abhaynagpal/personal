@@ -20,5 +20,14 @@ def export_to_table(query,query_job):
    bq_client = bigquery.Client(project=PROJECTID)
    query_job = bq_client.query(QUERY) # API request
   # rows_df = query_job.result().to_dataframe() # Waits for query to finish
+   assert query_job.state == 'RUNNING'
+
+    # Waits for the query to finish
+   iterator = query_job.result(timeout=TIMEOUT)
+   rows = list(iterator)
+
+   assert query_job.state == 'DONE'
+   row = rows[0]
+   assert row[0] == row.name == row['name']
 
 
