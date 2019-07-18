@@ -20,14 +20,13 @@ def export_to_table(query,query_job):
    bq_client = bigquery.Client(project=PROJECTID)
    query_job = bq_client.query(QUERY) # API request
   # rows_df = query_job.result().to_dataframe() # Waits for query to finish
-   assert query_job.state == 'RUNNING'
+   while query_job.state == "RUNNING":
+    print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
+    time.sleep( 540 )
 
-    # Waits for the query to finish
-   iterator = query_job.result()
-   rows = list(iterator)
+   if query_job.errors != None:
+    print( "Query Failed." )
+    raise Exception( "Query Failed. Error: [ %s ]." % query_job.error_result )
 
-   assert query_job.state == 'DONE'
-   row = rows[0]
-   assert row[0] == row.name == row['name']
 
 
