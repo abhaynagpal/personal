@@ -2,7 +2,6 @@ import base64
 import os
 from google.cloud import bigquery
 import time
-import pandas as pd
 
 # Environ variables
 PROJECTID = os.environ.get('GCP_PROJECT')
@@ -21,11 +20,10 @@ def export_to_table(query,query_job):
    QUERY = "INSERT INTO `mpc-dev-459470.DELEVERIES.C_TMP_EM_PIVOT` SELECT * FROM `mpc-dev-459470.DELEVERIES.MC_BASE_PROC_VIEW`"
    bq_client = bigquery.Client(project=PROJECTID)
    query_job = bq_client.query(QUERY) # API request
-   rows_df = query_job.result().to_dataframe() # Waits for query to finish
- #  while query_job.state != "DONE":
- #   print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
-  #  time.sleep( 5 )
-   print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
+   #rows_df = query_job.result().to_dataframe() # Waits for query to finish
+   while query_job.state != "DONE":
+    print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
+    time.sleep( 5 )
    if query_job.errors != None:
     print( "Query Failed." )
     raise Exception( "Query Failed. Error: [ %s ]." % query_job.error_result )
