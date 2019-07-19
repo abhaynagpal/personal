@@ -23,7 +23,7 @@ def export_to_table(query,query_job):
    query_job = bq_client.query(QUERY, project="mpc-dev-459470", location = "australia-southeast1") # API request
    #rows_df = query_job.result().to_dataframe() # Waits for query to finish
 
-   while not query_job.complete:
+   while not query_job.done():
       print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
       time.sleep( 10 )
    if query_job.errors != None:
