@@ -22,16 +22,13 @@ def export_to_table(query,query_job):
    bq_client = bigquery.Client(project=PROJECTID)
    query_job = bq_client.query(QUERY, project="mpc-dev-459470", location = "australia-southeast1") # API request
    #rows_df = query_job.result().to_dataframe() # Waits for query to finish
-   
-   print("Last 10 jobs:")
-   for job in bq_client.list_jobs(max_results=10):  # API request(s)
-    print(job.job_id)
-   #while query_job.state == "RUNNING":
-    #print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
-    #time.sleep( 5 )
+
+   while not query_job.complete:
+      print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
+      time.sleep( 10 )
    if query_job.errors != None:
-    print( "Query Failed." )
-    raise Exception( "Query Failed. Error: [ %s ]." % query_job.error_result )
+      print( "Query Failed." )
+      raise Exception( "Query Failed. Error: [ %s ]." % query_job.error_result )
 
 
 
