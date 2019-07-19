@@ -2,7 +2,7 @@ import base64
 import os
 from google.cloud import bigquery
 import time
-import pandas
+import pandas as pd
 
 # Environ variables
 PROJECTID = os.environ.get('GCP_PROJECT')
