@@ -24,7 +24,7 @@ def export_to_table(query,query_job):
    #rows_df = query_job.result().to_dataframe() # Waits for query to finish
    
    print("Last 10 jobs:")
-   for job in client.list_jobs(max_results=10):  # API request(s)
+   for job in bq_client.list_jobs(max_results=10):  # API request(s)
     print(job.job_id)
    #while query_job.state == "RUNNING":
     #print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
