@@ -20,7 +20,9 @@ def export_to_table(query,query_job):
    # BQ Query to get add to cart sessions
    #QUERY = "INSERT INTO `mpc-dev-459470.DELEVERIES.C_TMP_EM_PIVOT` SELECT * FROM `mpc-dev-459470.DELEVERIES.MC_BASE_PROC_VIEW`"
    # Read the sql file
-   QUERY = open('mypostsql.sql', 'r') 
+   fd = open('mypostsql.sql', 'r') 
+   QUERY = fd.read()
+   fd.close()
    bq_client = bigquery.Client(project=PROJECTID)
    query_job = bq_client.query(QUERY, project="mpc-dev-459470", location = "australia-southeast1") # API request
    #rows_df = query_job.result().to_dataframe() # Waits for query to finish
