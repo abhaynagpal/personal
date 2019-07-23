@@ -28,7 +28,7 @@ def export_to_table(query,query_job):
 	     QUERY, project="mpc-dev-459470", location = "australia-southeast1"
 	 ) # API request
 	 #rows_df = query_job.result().to_dataframe() # Waits for query to finish
-	 query_job.result()
+	 query_job.result(timeout=5000)
 	 return 'OK'
 	 #while not query_job.done():
 	 #   print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
