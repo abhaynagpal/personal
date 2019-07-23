@@ -1,5 +1,4 @@
 
-
 import base64
 import os
 from google.cloud import bigquery
@@ -26,7 +25,7 @@ def export_to_table(query,query_job):
 	 query_job = bq_client.query(
 	     QUERY, project="mpc-dev-459470", location = "australia-southeast1"
 	 ) # API request
-         results = query_job.result()
+    results = query_job.result()
 	 return 'OK'
 	 #while not query_job.done():
 	 #   print( "Job {} is currently in state {}".format( query_job.job_id, query_job.state ) )
