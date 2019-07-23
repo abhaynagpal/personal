@@ -14,7 +14,7 @@ def hello_pubsub(event, context):
     pubsub_message = base64.b64decode(event['data']).decode('utf-8')
 
     
-def export_to_table(fd,query,results):
+def export_to_table(query,results):
    # BQ Query to get add to cart sessions
    #QUERY = "INSERT INTO `mpc-dev-459470.DELEVERIES.C_TMP_EM_PIVOT` SELECT * FROM `mpc-dev-459470.DELEVERIES.MC_BASE_PROC_VIEW`"
    # Read the sql file
